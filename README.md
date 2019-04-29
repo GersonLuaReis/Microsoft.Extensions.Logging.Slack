@@ -24,28 +24,31 @@ The package is almost done, but not release yet (need to write the unit tests), 
 How to use it?
 
 ```cs
-public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHostingEnvironment env)
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {
-  var configuration = new SlackConfiguration()
-  {
-    WebhookUrl = "http://tostring.it",
-    MinLevel = MinLevel.Error
-  }
-  app.AddSlack(configuration, env)
+    var configuration = new SlackConfiguration()
+    {
+        WebhookUrl = new Uri("Webhook"),
+        MinLevel = LogLevel.Error //Logging level
+    };
+    
+    loggerFactory.AddSlack(configuration, env);
+
 }
 ```
 
 or
 
 ```cs
-public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {
-  var configuration = new SlackConfiguration()
-  {
-    WebhookUrl = "http://tostring.it",
-    MinLevel = MinLevel.Error
-  }
-  app.AddSlack(configuration, env, "my application name", "my application environment")
+    var configuration = new SlackConfiguration()
+    {
+        WebhookUrl = new Uri("Webhook"),
+        MinLevel = LogLevel.Error //Logging level
+    };
+
+    loggerFactory.AddSlack(configuration, "Application name", env.EnvironmentName);
 }
 ```
 
